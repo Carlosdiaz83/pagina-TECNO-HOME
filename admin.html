@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECNO HOME | Servicio Técnico Especializado en Córdoba</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0a0a0a',
+                            800: '#171717',
+                            700: '#262626',
+                        },
+                        brand: {
+                            blue: '#0070f3',
+                            cyan: '#00dfd8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f4f6;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- SEO Local Córdoba -->
+    <meta name="description" content="Expertos en reparación de electrodomésticos y tecnología en Córdoba. Calidad, garantía y reacondicionados en Lavarropas, TV LED, PC y Celulares.">
+    <meta name="keywords" content="Servicio Técnico Lavarropas Córdoba, Reparación de TV LED Córdoba, TECNO HOME, Servicio Técnico Celulares Córdoba, Servicio Técnico PC Córdoba, Reparación de Electrodomésticos Córdoba">
+    <meta name="author" content="TECNO HOME">
+    <link rel="canonical" href="https://tecnohome-cordoba.netlify.app/">
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- LOGIN SECTION -->
+    <div id="login-section" class="w-full max-w-md bg-dark-800 border border-dark-700 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-blue to-brand-cyan"></div>
+        <div class="flex items-center justify-center gap-2 mb-8">
+            <svg class="w-8 h-8 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <h1 class="text-2xl font-bold text-white">Acceso Panel</h1>
+        </div>
+
+        <form id="login-form" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Usuario</label>
+                <input type="text" id="username" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-blue transition-colors" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Contraseña</label>
+                <input type="password" id="password" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-blue transition-colors" required>
+            </div>
+            <div id="login-error" class="text-red-500 text-sm hidden">Usuario o contraseña incorrectos.</div>
+            <button type="submit" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white font-semibold rounded-lg shadow-[0_0_15px_rgba(0,112,243,0.3)] transition-all duration-300">
+                Ingresar
+            </button>
+            <a href="index.html" class="block text-center text-sm text-gray-500 hover:text-white mt-4 underline">Volver a la web</a>
+        </form>
+    </div>
+
+    <!-- ADMIN PANEL SECTION -->
+    <div id="admin-section" class="w-full max-w-5xl hidden flex-col pb-20">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8 bg-dark-800 border border-dark-700 p-4 rounded-2xl">
+            <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-blue to-brand-cyan flex items-center justify-center text-white font-bold text-lg">A</span>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Panel de Gestión</h2>
+                    <p class="text-sm text-gray-400">TECNO HOME</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="index.html" target="_blank" class="text-sm text-brand-cyan hover:text-white transition-colors underline hidden sm:block">Ver sitio web</a>
+                <button onclick="logout()" class="px-4 py-2 border border-dark-700 rounded-lg text-gray-300 hover:bg-dark-700 transition-colors text-sm">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- PRODUCTOS -->
+            <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-6 border-b border-dark-700 pb-2">Gestionar Showroom</h3>
+                
+                <form id="product-form" class="space-y-4 mb-8">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Nombre del Equipo</label>
+                        <input type="text" id="prod-title" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-blue" required placeholder="Ej. Lavarropas LG 8kg">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Precio</label>
+                            <input type="text" id="prod-price" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-blue" required placeholder="Ej. $150.000">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Estado</label>
+                            <select id="prod-status" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-blue" required>
+                                <option value="Reacondicionado a nuevo">Reacondicionado a nuevo</option>
+                                <option value="Usado con Garantía">Usado con Garantía</option>
+                                <option value="Outlet">Outlet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Foto del Equipo</label>
+                        <input type="file" id="prod-image" accept="image/*" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-gray-400 focus:outline-none focus:border-brand-blue file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-dark-700 file:text-white hover:file:bg-dark-600" required>
+                    </div>
+                    <button type="submit" class="w-full py-2 bg-brand-cyan hover:bg-cyan-500 text-dark-900 font-bold rounded-lg transition-colors">
+                        Agregar Equipo
+                    </button>
+                </form>
+
+                <h4 class="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Equipos Publicados</h4>
+                <div id="admin-products-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+                    <!-- Products will be injected here -->
+                </div>
+            </div>
+
+            <!-- TECNO TIPS -->
+            <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-6 border-b border-dark-700 pb-2">Gestionar Tecno Tips</h3>
+                
+                <form id="tip-form" class="space-y-4 mb-8">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Título del Consejo</label>
+                        <input type="text" id="tip-title" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-blue" required placeholder="Ej. Cuida la batería">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Contenido</label>
+                        <textarea id="tip-content" rows="3" class="w-full bg-dark-900 border border-dark-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-brand-blue resize-none" required placeholder="Escribe el consejo aquí..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2 bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-lg transition-colors">
+                        Publicar Tip
+                    </button>
+                </form>
+
+                <h4 class="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Tips Publicados</h4>
+                <div id="admin-tips-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+                    <!-- Tips will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. LÓGICA DE LOGIN ---
+        const users = {
+            'Carlosdiaz': 'Tecno123',
+            'Lorenasantucho': 'Tecno321'
+        };
+
+        const loginForm = document.getElementById('login-form');
+        const loginSection = document.getElementById('login-section');
+        const adminSection = document.getElementById('admin-section');
+        const loginError = document.getElementById('login-error');
+
+        // Check si ya estamos logueados en esta sesión
+        if (sessionStorage.getItem('tecno_admin_logged') === 'true') {
+            showAdmin();
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            if (users[user] && users[user] === pass) {
+                sessionStorage.setItem('tecno_admin_logged', 'true');
+                showAdmin();
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        function showAdmin() {
+            loginSection.classList.add('hidden');
+            adminSection.classList.remove('hidden');
+            document.body.classList.remove('items-center', 'justify-center');
+            document.body.classList.add('pt-10');
+            loadAdminData();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('tecno_admin_logged');
+            window.location.reload();
+        }
+
+        // --- 2. LÓGICA DE DATOS (LOCALSTORAGE) ---
+        let productsData = JSON.parse(localStorage.getItem('tecno_productos')) || [];
+        let tipsData = JSON.parse(localStorage.getItem('tecno_tips')) || [];
+
+        function saveProducts() {
+            localStorage.setItem('tecno_productos', JSON.stringify(productsData));
+            renderAdminProducts();
+        }
+
+        function saveTips() {
+            localStorage.setItem('tecno_tips', JSON.stringify(tipsData));
+            renderAdminTips();
+        }
+
+        // --- 3. FORMULARIOS Y RENDERIZADO ---
+        
+        // Manejo de carga de Producto con Imagen a Base64
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('prod-title').value;
+            const price = document.getElementById('prod-price').value;
+            const status = document.getElementById('prod-status').value;
+            const fileInput = document.getElementById('prod-image');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64Image = event.target.result;
+                    const newProduct = {
+                        id: Date.now(), // ID único temporal
+                        title: title,
+                        price: price,
+                        status: status,
+                        image: base64Image
+                    };
+                    productsData.push(newProduct);
+                    saveProducts();
+                    document.getElementById('product-form').reset();
+                };
+                // Leer imagen como Base64 (Data URL)
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        function renderAdminProducts() {
+            const list = document.getElementById('admin-products-list');
+            if (productsData.length === 0) {
+                list.innerHTML = '<p class="text-sm text-gray-500">No hay equipos publicados.</p>';
+                return;
+            }
+            
+            list.innerHTML = productsData.map(p => `
+                <div class="flex items-center justify-between bg-dark-900 border border-dark-700 p-3 rounded-lg">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <img src="${p.image}" class="w-12 h-12 rounded object-cover flex-shrink-0 bg-dark-800">
+                        <div class="min-w-0">
+                            <p class="text-sm text-white font-semibold truncate">${p.title}</p>
+                            <p class="text-xs text-brand-cyan">${p.price}</p>
+                        </div>
+                    </div>
+                    <button onclick="deleteProduct(${p.id})" class="ml-2 p-2 text-gray-500 hover:text-red-500 hover:bg-dark-800 rounded transition-colors" title="Eliminar">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function deleteProduct(id) {
+            if(confirm('¿Estás seguro de eliminar este equipo?')) {
+                productsData = productsData.filter(p => p.id !== id);
+                saveProducts();
+            }
+        }
+
+        // Manejo de carga de Tips
+        document.getElementById('tip-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('tip-title').value;
+            const content = document.getElementById('tip-content').value;
+            
+            const newTip = {
+                id: Date.now(),
+                title: title,
+                content: content
+            };
+            
+            tipsData.push(newTip);
+            saveTips();
+            document.getElementById('tip-form').reset();
+        });
+
+        function renderAdminTips() {
+            const list = document.getElementById('admin-tips-list');
+            if (tipsData.length === 0) {
+                list.innerHTML = '<p class="text-sm text-gray-500">No hay tips publicados.</p>';
+                return;
+            }
+            
+            list.innerHTML = tipsData.map(t => `
+                <div class="flex items-center justify-between bg-dark-900 border border-dark-700 p-3 rounded-lg">
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm text-white font-semibold truncate">${t.title}</p>
+                        <p class="text-xs text-gray-500 truncate mt-1">${t.content}</p>
+                    </div>
+                    <button onclick="deleteTip(${t.id})" class="ml-2 p-2 text-gray-500 hover:text-red-500 hover:bg-dark-800 rounded transition-colors" title="Eliminar">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function deleteTip(id) {
+            if(confirm('¿Estás seguro de eliminar este tip?')) {
+                tipsData = tipsData.filter(t => t.id !== id);
+                saveTips();
+            }
+        }
+
+        // Cargar listas iniciales
+        function loadAdminData() {
+            renderAdminProducts();
+            renderAdminTips();
+        }
+    </script>
+
+    <script>
+        // QR Code Rotation Logic
+        window.addEventListener('load', () => {
+            const numbers = ['5493517883104', '5493512400816'];
+            const selectedNumber = numbers[Math.random() < 0.5 ? 0 : 1];
+            const message = encodeURIComponent('Hola, escaneé el código QR de su web y necesito una consulta.');
+            const qrUrl = `https://wa.me/${selectedNumber}?text=${message}`;
+            
+            new QRCode(document.getElementById("qrcode"), {
+                text: qrUrl,
+                width: 100,
+                height: 100,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+    </script>
+
+    <script>
+        // Page Loader Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('page-loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 700);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
