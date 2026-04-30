@@ -186,8 +186,7 @@
     
     <script>
         document.getElementById('whatsapp-btn').addEventListener('click', () => {
-            const numbers = ['5493517883104', '5493512400816'];
-            const selectedNumber = numbers[Math.random() < 0.5 ? 0 : 1];
+            const selectedNumber = getRotativeNumber();
             const message = encodeURIComponent('Hola, quisiera hacer una consulta sobre una reparación.');
             window.open(`https://wa.me/${selectedNumber}?text=${message}`, '_blank');
         });
@@ -238,8 +237,7 @@
         }
 
         function consultProduct(title) {
-            const numbers = ['5493517883104', '5493512400816'];
-            const selectedNumber = numbers[Math.random() < 0.5 ? 0 : 1];
+            const selectedNumber = getRotativeNumber();
             const message = encodeURIComponent(`Hola, me interesa consultar por el equipo que vi en la tienda: "${title}".`);
             window.open(`https://wa.me/${selectedNumber}?text=${message}`, '_blank');
         }
@@ -253,8 +251,7 @@
     <script>
         // QR Code Rotation Logic
         window.addEventListener('load', () => {
-            const numbers = ['5493517883104', '5493512400816'];
-            const selectedNumber = numbers[Math.random() < 0.5 ? 0 : 1];
+            const selectedNumber = getRotativeNumber();
             const message = encodeURIComponent('Hola, escaneé el código QR de su web y necesito una consulta.');
             const qrUrl = `https://wa.me/${selectedNumber}?text=${message}`;
             
@@ -280,6 +277,44 @@
                 }, 700);
             }, 500);
         });
+    </script>
+
+    <script>
+        // --- Lógica Unificada de WhatsApp Rotativo ---
+        const WHATSAPP_NUMBERS = ['5493517883104', '5493512400816'];
+        
+        function getRotativeNumber() {
+            // Usamos sessionStorage para que el mismo usuario vea números distintos al alternar clicks/cargas
+            let lastIndex = sessionStorage.getItem('tecno_wa_index');
+            let newIndex;
+            
+            if (lastIndex === null) {
+                // Primera vez: elección aleatoria
+                newIndex = Math.random() < 0.5 ? 0 : 1;
+            } else {
+                // Siguientes veces: alternamos
+                newIndex = (parseInt(lastIndex) + 1) % 2;
+            }
+            
+            sessionStorage.setItem('tecno_wa_index', newIndex);
+            return WHATSAPP_NUMBERS[newIndex];
+        }
+
+        // Configurar el botón flotante
+        const waBtn = document.getElementById('whatsapp-btn');
+        if (waBtn) {
+            waBtn.addEventListener('click', () => {
+                const number = getRotativeNumber();
+                let message = "Hola, quisiera hacer una consulta sobre una reparación.";
+                
+                // Si estamos en servicios y hay diagnóstico
+                if (typeof assistantCategory !== 'undefined' && assistantCategory && assistantFault) {
+                    message = `Hola, necesito reparar mi ${assistantCategory}. Presenta la siguiente falla: "${assistantFault}". Quisiera coordinar el retiro del equipo.`;
+                }
+                
+                window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank');
+            });
+        }
     </script>
 </body>
 </html>
